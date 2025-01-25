@@ -7,14 +7,45 @@
         <a href="{% url 'add_tenant' %}" class="btn btn-success">إضافة مستأجر جديد</a>
     </div>
     <div class="card-body">
+        <!-- نموذج التصفية -->
+        <form method="get" class="mb-4 border p-3 rounded bg-light">
+            <div class="row">
+                <!-- فلتر حسب الاسم -->
+                <div class="col-md-4">
+                    <label for="name" class="form-label">بحث بالاسم:</label>
+                    <input type="text" name="name" id="name" class="form-control" 
+                        value="{{ request.GET.name }}" placeholder="أدخل اسم المستأجر">
+                </div>
+
+                <!-- فلتر حسب المدينة -->
+                <div class="col-md-4">
+                    <label for="city" class="form-label">المدينة:</label>
+                    <select name="city" id="city" class="form-select">
+                        <option value="">جميع المدن</option>
+                        {% for city in cities %}
+                            <option value="{{ city }}" 
+                                {% if request.GET.city == city %}selected{% endif %}>
+                                {{ city }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- زر التصفية وإعادة التعيين -->
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary me-2">تصفية</button>
+                    <a href="{% url 'tenant_list' %}" class="btn btn-outline-secondary">إعادة التعيين</a>
+                </div>
+            </div>
+        </form>
+
+        <!-- جدول المستأجرين -->
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>الاسم</th>
-                    <th>النوع</th>
-                    <th>رقم الهوية</th>
-                    <th>تاريخ الهوية</th>
                     <th>الهاتف</th>
+                    <th>المدينة</th>
                     <th>الإجراءات</th>
                 </tr>
             </thead>
@@ -22,18 +53,18 @@
                 {% for tenant in tenants %}
                 <tr>
                     <td>{{ tenant.name }}</td>
-                    <td>{{ tenant.get_type_display }}</td>
-                    <td>{{ tenant.id_number }}</td>
-                    <td>{{ tenant.id_issue_date }}</td>
                     <td>{{ tenant.phone }}</td>
+                    <td>{{ tenant.city }}</td>
                     <td>
-                        <td>
-                            <a href="{% url 'view_tenant' tenant.id %}" class="btn btn-sm btn-info">عرض</a>
-                            <a href="{% url 'edit_tenant' tenant.id %}" class="btn btn-sm btn-warning">تعديل</a>
-                            <a href="{% url 'delete_tenant' tenant.id %}" class="btn btn-sm btn-danger" 
-                               onclick="return confirm('هل أنت متأكد من حذف المستأجر؟')">حذف</a>
-                        </td>
+                        <a href="{% url 'view_tenant' tenant.id %}" class="btn btn-sm btn-info">عرض</a>
+                        <a href="{% url 'edit_tenant' tenant.id %}" class="btn btn-sm btn-warning">تعديل</a>
+                        <a href="{% url 'delete_tenant' tenant.id %}" class="btn btn-sm btn-danger" 
+                            onclick="return confirm('هل أنت متأكد من الحذف؟')">حذف</a>
                     </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">لا توجد نتائج.</td>
                 </tr>
                 {% endfor %}
             </tbody>

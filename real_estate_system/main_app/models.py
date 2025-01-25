@@ -32,6 +32,7 @@ class Tenant(models.Model):
     id_number = models.CharField(max_length=20)
     id_issue_date = models.DateField()
     phone = models.CharField(max_length=20)
+    city = models.CharField(max_length=50, verbose_name="المدينة")
     id_copy = models.FileField(upload_to='tenants/id/')
     postal_number_copy = models.FileField(upload_to='tenants/postal/')
 

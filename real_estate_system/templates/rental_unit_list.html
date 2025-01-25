@@ -7,6 +7,39 @@
         <a href="{% url 'add_rental_unit' %}" class="btn btn-success">إضافة وحدة جديدة</a>
     </div>
     <div class="card-body">
+        <!-- نموذج التصفية -->
+        <form method="get" class="mb-4 border p-3 rounded bg-light">
+            <div class="row">
+                <!-- فلتر حسب الموقع -->
+                <div class="col-md-4">
+                    <label for="site" class="form-label">الموقع:</label>
+                    <select name="site" id="site" class="form-select">
+                        <option value="">جميع المواقع</option>
+                        {% for site in sites %}
+                            <option value="{{ site.id }}" 
+                                {% if request.GET.site == site.id|stringformat:"s" %}selected{% endif %}>
+                                {{ site.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- فلتر حسب الاسم -->
+                <div class="col-md-4">
+                    <label for="name" class="form-label">بحث بالاسم:</label>
+                    <input type="text" name="name" id="name" class="form-control" 
+                        value="{{ request.GET.name }}" placeholder="أدخل اسم الوحدة">
+                </div>
+
+                <!-- زر التصفية وإعادة التعيين -->
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary me-2">تصفية</button>
+                    <a href="{% url 'rental_unit_list' %}" class="btn btn-outline-secondary">إعادة التعيين</a>
+                </div>
+            </div>
+        </form>
+
+        <!-- جدول الوحدات -->
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -29,8 +62,13 @@
                     <td>
                         <a href="{% url 'view_unit' unit.id %}" class="btn btn-sm btn-info">عرض</a>
                         <a href="{% url 'edit_unit' unit.id %}" class="btn btn-sm btn-warning">تعديل</a>
-                        <a href="{% url 'delete_unit' unit.id %}" class="btn btn-sm btn-danger" onclick="return confirm('هل أنت متأكد من الحذف؟')">حذف</a>
+                        <a href="{% url 'delete_unit' unit.id %}" class="btn btn-sm btn-danger" 
+                            onclick="return confirm('هل أنت متأكد من الحذف؟')">حذف</a>
                     </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">لا توجد وحدات متاحة.</td>
                 </tr>
                 {% endfor %}
             </tbody>

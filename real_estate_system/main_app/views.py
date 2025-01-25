@@ -56,10 +56,32 @@ def delete_site(request, site_id):
 #####################
 # إدارة العين المؤجرة #
 #####################
+# def rental_unit_list(request):
+#     """عرض قائمة جميع الوحدات المؤجرة"""
+#     units = RentalUnit.objects.all()
+#     return render(request, 'rental_unit_list.html', {'units': units})
+
 def rental_unit_list(request):
-    """عرض قائمة جميع الوحدات المؤجرة"""
+    # الحصول على معايير التصفية من الـ URL
+    site_id = request.GET.get('site')
+    name = request.GET.get('name')
+
+    # تصفية الوحدات
     units = RentalUnit.objects.all()
-    return render(request, 'rental_unit_list.html', {'units': units})
+    if site_id:
+        units = units.filter(site_id=site_id)
+    if name:
+        units = units.filter(name__icontains=name)  # بحث غير حساس لحالة الأحرف
+
+    # جلب جميع المواقع لعرضها في الفلتر
+    sites = Site.objects.all()
+
+    return render(request, 'rental_unit_list.html', {
+        'units': units,
+        'sites': sites,
+    })
+
+
 
 def add_rental_unit(request):
     """إضافة وحدة مؤجرة جديدة"""
@@ -107,9 +129,29 @@ def delete_unit(request, unit_id):
 # إدارة المستأجرين #
 ###################
 
+# def tenant_list(request):
+#     tenants = Tenant.objects.all()
+#     return render(request, 'tenant_list.html', {'tenants': tenants})
+
 def tenant_list(request):
+    # الحصول على معايير التصفية من الـ URL
+    name = request.GET.get('name')
+    city = request.GET.get('city')
+
+    # تصفية المستأجرين
     tenants = Tenant.objects.all()
-    return render(request, 'tenant_list.html', {'tenants': tenants})
+    if name:
+        tenants = tenants.filter(name__icontains=name)  # بحث غير حساس لحالة الأحرف
+    if city:
+        tenants = tenants.filter(city__icontains=city)  # يمكنك تغييرها إلى "iexact" للبحث الدقيق
+
+    # جلب جميع المدن المميزة لعرضها في الفلتر (اختياري)
+    cities = Tenant.objects.values_list('city', flat=True).distinct()
+
+    return render(request, 'tenant_list.html', {
+        'tenants': tenants,
+        'cities': cities,
+    })
 
 def add_tenant(request):
     if request.method == 'POST':
