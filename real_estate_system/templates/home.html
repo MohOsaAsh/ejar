@@ -1,0 +1,26 @@
+<!-- templates/home.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3>مرحبًا بكم في نظام الإدارة العقارية</h3>
+    </div>
+    <div class="card-body">
+        <div class="row text-center">
+            <div class="col-md-3 mb-3">
+                <a href="{% url 'site_list' %}" class="btn btn-primary btn-lg">المواقع</a>
+            </div>
+            <div class="col-md-3 mb-3">
+                <a href="{% url 'rental_unit_list' %}" class="btn btn-success btn-lg">العين المؤجرة</a>
+            </div>
+            <div class="col-md-3 mb-3">
+                <a href="{% url 'tenant_list' %}" class="btn btn-info btn-lg">المستأجرون</a>
+            </div>
+            <div class="col-md-3 mb-3">
+                <a href="{% url 'contract_list' %}" class="btn btn-warning btn-lg">العقود</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

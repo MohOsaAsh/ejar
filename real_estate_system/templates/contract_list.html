@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between">
+        <h3>قائمة العقود</h3>
+        <a href="{% url 'add_contract' %}" class="btn btn-success">إضافة عقد جديد</a>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>المستأجر</th>
+                    <th>الموقع</th>
+                    <th>تاريخ البدء</th>
+                    <th>المدة</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contract in contracts %}
+                <tr>
+                    <td>{{ contract.tenant }}</td>
+                    <td>{{ contract.site }}</td>
+                    <td>{{ contract.start_date }}</td>
+                    <td>{{ contract.duration_months }} شهر</td>
+                    <td>
+                        <a href="#" class="btn btn-sm btn-info">عرض</a>
+                        <a href="#" class="btn btn-sm btn-warning">تعديل</a>
+                        <a href="#" class="btn btn-sm btn-danger">حذف</a>
+                        <a href="#" class="btn btn-sm btn-secondary" onclick="window.print()">طباعة</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

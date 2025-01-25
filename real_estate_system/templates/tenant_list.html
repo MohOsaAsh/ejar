@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between">
+        <h3>قائمة المستأجرين</h3>
+        <a href="{% url 'add_tenant' %}" class="btn btn-success">إضافة مستأجر جديد</a>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>الاسم</th>
+                    <th>النوع</th>
+                    <th>رقم الهوية</th>
+                    <th>تاريخ الهوية</th>
+                    <th>الهاتف</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tenant in tenants %}
+                <tr>
+                    <td>{{ tenant.name }}</td>
+                    <td>{{ tenant.get_type_display }}</td>
+                    <td>{{ tenant.id_number }}</td>
+                    <td>{{ tenant.id_issue_date }}</td>
+                    <td>{{ tenant.phone }}</td>
+                    <td>
+                        <td>
+                            <a href="{% url 'view_tenant' tenant.id %}" class="btn btn-sm btn-info">عرض</a>
+                            <a href="{% url 'edit_tenant' tenant.id %}" class="btn btn-sm btn-warning">تعديل</a>
+                            <a href="{% url 'delete_tenant' tenant.id %}" class="btn btn-sm btn-danger" 
+                               onclick="return confirm('هل أنت متأكد من حذف المستأجر؟')">حذف</a>
+                        </td>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

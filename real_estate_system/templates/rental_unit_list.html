@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between">
+        <h3>قائمة الوحدات المؤجرة</h3>
+        <a href="{% url 'add_rental_unit' %}" class="btn btn-success">إضافة وحدة جديدة</a>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>الاسم</th>
+                    <th>الموقع</th>
+                    <th>عداد الكهرباء</th>
+                    <th>عداد الماء</th>
+                    <th>المساحة</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for unit in units %}
+                <tr>
+                    <td>{{ unit.name }}</td>
+                    <td>{{ unit.site }}</td>
+                    <td>{{ unit.electricity_meter }}</td>
+                    <td>{{ unit.water_meter }}</td>
+                    <td>{{ unit.area }} م²</td>
+                    <td>
+                        <a href="#" class="btn btn-sm btn-info">عرض</a>
+                        <a href="#" class="btn btn-sm btn-warning">تعديل</a>
+                        <a href="#" class="btn btn-sm btn-danger">حذف</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+<!-- templates/site_list.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between">
+        <h3>قائمة المواقع</h3>
+        <a href="{% url 'add_site' %}" class="btn btn-success">إضافة موقع جديد</a>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>اسم الموقع</th>
+                    <th>العنوان</th>
+                    <th>بيانات إضافية</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for site in sites %}
+                <tr>
+                    <td>{{ site.name }}</td>
+                    <td>{{ site.address }}</td>
+                    <td>{{ site.additional_data|truncatechars:30 }}</td>
+                    <td>
+                        <a href="#" class="btn btn-sm btn-info">عرض</a>
+                        <a href="{% url 'edit_site' site.id %}" class="btn btn-sm btn-warning">تعديل</a>
+                        <a href="{% url 'delete_site' site.id %}" class="btn btn-sm btn-danger" onclick="return confirm('هل أنت متأكد من الحذف؟')">حذف</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
