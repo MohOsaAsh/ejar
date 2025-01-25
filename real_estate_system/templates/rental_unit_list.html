@@ -27,9 +27,9 @@
                     <td>{{ unit.water_meter }}</td>
                     <td>{{ unit.area }} م²</td>
                     <td>
-                        <a href="#" class="btn btn-sm btn-info">عرض</a>
-                        <a href="#" class="btn btn-sm btn-warning">تعديل</a>
-                        <a href="#" class="btn btn-sm btn-danger">حذف</a>
+                        <a href="{% url 'view_unit' unit.id %}" class="btn btn-sm btn-info">عرض</a>
+                        <a href="{% url 'edit_unit' unit.id %}" class="btn btn-sm btn-warning">تعديل</a>
+                        <a href="{% url 'delete_unit' unit.id %}" class="btn btn-sm btn-danger" onclick="return confirm('هل أنت متأكد من الحذف؟')">حذف</a>
                     </td>
                 </tr>
                 {% endfor %}

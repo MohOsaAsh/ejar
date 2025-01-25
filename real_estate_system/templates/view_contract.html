@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3>تفاصيل العقــــد: {{ tenant.name }}</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>النوع:</strong> {{ tenant.get_type_display }}</p>
+                <p><strong>رقم الهوية:</strong> {{ tenant.id_number }}</p>
+                <p><strong>تاريخ الهوية:</strong> {{ tenant.id_issue_date }}</p>
+                <p><strong>رقم الهاتف:</strong> {{ tenant.phone }}</p>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <h5>صورة الهوية:</h5>
+                    {% if tenant.id_copy %}
+                    <a href="{{ tenant.id_copy.url }}" target="_blank" class="btn btn-primary">
+                        عرض الملف
+                    </a>
+                    {% else %}
+                    <p class="text-muted">لا يوجد ملف مرفق</p>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <h5>الرقم البريدي:</h5>
+                    {% if tenant.postal_number_copy %}
+                    <a href="{{ tenant.postal_number_copy.url }}" target="_blank" class="btn btn-primary">
+                        عرض الملف
+                    </a>
+                    {% else %}
+                    <p class="text-muted">لا يوجد ملف مرفق</p>
+                    {% endif %}
+                </div>
+            </div>
+           
+        </div>
+        <a href="{% url 'tenant_list' %}" class="btn btn-secondary">العودة للقائمة</a>
+    </div>
+</div>
+{% endblock %}

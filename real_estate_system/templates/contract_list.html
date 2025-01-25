@@ -25,10 +25,13 @@
                     <td>{{ contract.start_date }}</td>
                     <td>{{ contract.duration_months }} شهر</td>
                     <td>
-                        <a href="#" class="btn btn-sm btn-info">عرض</a>
-                        <a href="#" class="btn btn-sm btn-warning">تعديل</a>
-                        <a href="#" class="btn btn-sm btn-danger">حذف</a>
-                        <a href="#" class="btn btn-sm btn-secondary" onclick="window.print()">طباعة</a>
+                        <td>
+                            <!-- تغيير tenant إلى contract في جميع الروابط -->
+                            <a href="{% url 'view_contract' contract.id %}" class="btn btn-sm btn-info">عرض</a>
+                            <a href="{% url 'edit_contract' contract.id %}" class="btn btn-sm btn-warning">تعديل</a>
+                            <a href="{% url 'delete_contract' contract.id %}"class="btn btn-sm btn-danger"onclick="return confirm('هل أنت متأكد من حذف العقد؟')">حذف</a>
+                            <a href="#" class="btn btn-sm btn-secondary" onclick="window.print()">طباعة</a>
+                        </td>
                     </td>
                 </tr>
                 {% endfor %}

@@ -8,14 +8,32 @@ from django.conf import settings
 
 
 # main_app/views.py
-# main_app/views.py
 def home_page(request):
     return render(request, 'home.html')
 # نفس التعديل لبقية الدوال
 
+
+#############
+# إدارة المواقع #
+#############
+
 def site_list(request):
     sites = Site.objects.all()
     return render(request, 'site_list.html', {'sites': sites})
+
+def add_site(request):
+    if request.method == 'POST':
+        form = SiteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('site_list')
+    else:
+        form = SiteForm()
+    return render(request, 'form_template.html', {'form': form, 'title': 'إضافة موقع جديد'})
+
+def view_site(request, site_id):
+    site = get_object_or_404(Site, pk=site_id)
+    return render(request, 'view_site.html', {'site': site})
 
 
 def edit_site(request, site_id):
@@ -34,32 +52,17 @@ def delete_site(request, site_id):
     site.delete()
     return redirect('site_list')
 
+
+#####################
+# إدارة العين المؤجرة #
+#####################
 def rental_unit_list(request):
+    """عرض قائمة جميع الوحدات المؤجرة"""
     units = RentalUnit.objects.all()
     return render(request, 'rental_unit_list.html', {'units': units})
 
-def tenant_list(request):
-    tenants = Tenant.objects.all()
-    return render(request, 'tenant_list.html', {'tenants': tenants})
-
-def contract_list(request):
-    contracts = Contract.objects.all()
-    return render(request, 'contract_list.html', {'contracts': contracts})
-
-def add_site(request):
-    if request.method == 'POST':
-        form = SiteForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('site_list')
-    else:
-        form = SiteForm()
-    return render(request, 'form_template.html', {'form': form, 'title': 'إضافة موقع جديد'})
-
-# إنشاء دوال مماثلة لـ add_rental_unit, add_tenant, add_contract
-
-
 def add_rental_unit(request):
+    """إضافة وحدة مؤجرة جديدة"""
     if request.method == 'POST':
         form = RentalUnitForm(request.POST)
         if form.is_valid():
@@ -67,7 +70,46 @@ def add_rental_unit(request):
             return redirect('rental_unit_list')
     else:
         form = RentalUnitForm()
-    return render(request, 'form_template.html', {'form': form, 'title': 'إضافة عين مؤجرة'})
+    return render(request, 'form_template.html', {
+        'form': form,
+        'title': 'إضافة عين مؤجرة'
+    })
+
+def view_unit(request, unit_id):
+    """عرض تفاصيل وحدة مؤجرة"""
+    unit = get_object_or_404(RentalUnit, pk=unit_id)
+    return render(request, 'view_unit.html', {'unit': unit})
+
+def edit_unit(request, unit_id):
+    """تعديل بيانات وحدة مؤجرة"""
+    unit = get_object_or_404(RentalUnit, pk=unit_id)
+    if request.method == 'POST':
+        form = RentalUnitForm(request.POST, instance=unit)
+        if form.is_valid():
+            form.save()
+            return redirect('rental_unit_list')
+    else:
+        form = RentalUnitForm(instance=unit)
+    return render(request, 'form_template.html', {
+        'form': form,
+        'title': 'تعديل عين مؤجرة'
+    })
+
+def delete_unit(request, unit_id):
+    """حذف وحدة مؤجرة من النظام"""
+    unit = get_object_or_404(RentalUnit, pk=unit_id)
+    unit.delete()
+    return redirect('rental_unit_list')
+
+
+
+###################
+# إدارة المستأجرين #
+###################
+
+def tenant_list(request):
+    tenants = Tenant.objects.all()
+    return render(request, 'tenant_list.html', {'tenants': tenants})
 
 def add_tenant(request):
     if request.method == 'POST':
@@ -79,7 +121,7 @@ def add_tenant(request):
         form = TenantForm()
     return render(request, 'form_template.html', {'form': form, 'title': 'إضافة مستأجر'})
 
-# دوال التعديل والحذف والعرض للمستأجرين
+
 def view_tenant(request, tenant_id):
     tenant = get_object_or_404(Tenant, pk=tenant_id)
     return render(request, 'view_tenant.html', {'tenant': tenant})
@@ -101,12 +143,13 @@ def delete_tenant(request, tenant_id):
     return redirect('tenant_list')
 
 
+################
+# إدارة العقود #
+################
 
-
-
-
-
-
+def contract_list(request):
+    contracts = Contract.objects.all()
+    return render(request, 'contract_list.html', {'contracts': contracts})
 
 def add_contract(request):
     if request.method == 'POST':
@@ -118,8 +161,39 @@ def add_contract(request):
         form = ContractForm()
     return render(request, 'form_template.html', {'form': form, 'title': 'إضافة عقد'})
 
+def view_contract(request, contract_id):
+    """عرض تفاصيل عقد معين"""
+    contract = get_object_or_404(Contract, pk=contract_id)
+    return render(request, 'view_contract.html', {'contract': contract})
+
+def edit_contract(request, contract_id):
+    """تعديل بيانات عقد موجود"""
+    contract = get_object_or_404(Contract, pk=contract_id)
+    if request.method == 'POST':
+        form = ContractForm(request.POST, request.FILES, instance=contract)
+        if form.is_valid():
+            form.save()
+            return redirect('contract_list')
+    else:
+        form = ContractForm(instance=contract)
+    return render(request, 'form_template.html', {
+        'form': form,
+        'title': 'تعديل عقد'
+    })
+
+def delete_contract(request, contract_id):
+    """حذف عقد من النظام"""
+    contract = get_object_or_404(Contract, pk=contract_id)
+    contract.delete()
+    return redirect('contract_list')
+
+####################
+# إدارة الملفات المرفقة #
+####################
 
 def view_file(request, file_path):
     """عرض الملفات المرفقة (PDF/صور)"""
     full_path = os.path.join(settings.MEDIA_ROOT, file_path)
     return FileResponse(open(full_path, 'rb'), content_type='application/octet-stream')
+
+

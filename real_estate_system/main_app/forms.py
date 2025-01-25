@@ -25,10 +25,27 @@ class TenantForm(forms.ModelForm):
             'id_issue_date': forms.DateInput(attrs={'type': 'date'}),
         }
 
+
 class ContractForm(forms.ModelForm):
     class Meta:
         model = Contract
-        fields = '__all__'
+        fields = ['site', 'rental_unit', 'tenant', 'start_date', 'duration_months', 'contract_file']
         widgets = {
             'start_date': forms.DateInput(attrs={'type': 'date'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        site_id = kwargs.pop('site_id', None)
+        super().__init__(*args, **kwargs)
+        
+        # تصفية الوحدات المؤجرة بناءً على الموقع المحدد
+        if site_id:
+            self.fields['rental_unit'].queryset = RentalUnit.objects.filter(site_id=site_id)
+        else:
+            self.fields['rental_unit'].queryset = RentalUnit.objects.none()
+        
+        # إعداد قائمة المستأجرين
+        self.fields['tenant'].queryset = Tenant.objects.all()
+
+
+

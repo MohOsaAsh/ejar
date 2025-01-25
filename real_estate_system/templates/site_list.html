@@ -24,7 +24,7 @@
                     <td>{{ site.address }}</td>
                     <td>{{ site.additional_data|truncatechars:30 }}</td>
                     <td>
-                        <a href="#" class="btn btn-sm btn-info">عرض</a>
+                        <a href="{% url 'view_site' site.id %}" class="btn btn-sm btn-info">عرض</a>
                         <a href="{% url 'edit_site' site.id %}" class="btn btn-sm btn-warning">تعديل</a>
                         <a href="{% url 'delete_site' site.id %}" class="btn btn-sm btn-danger" onclick="return confirm('هل أنت متأكد من الحذف؟')">حذف</a>
                     </td>

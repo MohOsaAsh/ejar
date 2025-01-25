@@ -11,7 +11,7 @@ class Site(models.Model):
         return self.name
 
 class RentalUnit(models.Model):
-    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+    site = models.ForeignKey(Site, on_delete=models.CASCADE, related_name='rental_units')
     name = models.CharField(max_length=200)
     electricity_meter = models.CharField(max_length=50)
     water_meter = models.CharField(max_length=50)
