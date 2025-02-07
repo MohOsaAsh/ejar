@@ -63,7 +63,7 @@
                         <a href="{% url 'view_unit' unit.id %}" class="btn btn-sm btn-info">عرض</a>
                         <a href="{% url 'edit_unit' unit.id %}" class="btn btn-sm btn-warning">تعديل</a>
                         <a href="{% url 'delete_unit' unit.id %}" class="btn btn-sm btn-danger" 
-                            onclick="return confirm('هل أنت متأكد من الحذف؟')">حذف</a>
+                        onclick="return confirm('هل أنت متأكد من حذف المعرض ({{ unit.id }}) {{ unit.name|escapejs }}؟')"
                     </td>
                 </tr>
                 {% empty %}

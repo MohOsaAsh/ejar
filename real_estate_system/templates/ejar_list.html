@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between">
+        <h3>قائمة العقود</h3>
+        <a href="{% url 'add_ejar' %}" class="btn btn-success">إضافة عقد ايجار جديد</a>
+    </div>
+    
+
+        <!-- جدول المستأجرين -->
+        <table id="ejarTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">رقم العقد </th>
+                    <th onclick="sortTable(1)" >تاريخ التجديد</th>
+                    <th onclick="sortTable(2)">اسم المستاجر</th>
+                    <th onclick="sortTable(3)">رقم المستاجر</th>
+                    <th onclick="sortTable(4)" >تاريخ البداية </th>
+                    <th onclick="sortTable(5)" >تاريخ النهايه</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for ejar in ejars %}
+                <tr>
+                    <td>{{ ejar.conno }}</td>
+                    <td>{{ ejar.dateren }}</td>
+                    <td>{{ ejar.name }}</td>
+                    <td>{{ ejar.nameno }}</td>
+                    <td>{{ ejar.datestr }}</td>
+                    <td>{{ ejar.dateend }}</td>
+                    <td>
+                        <a href="{% url 'view_ejar' ejar.id %}" class="btn btn-sm btn-info">عرض</a>
+                        <a href="{% url 'edit_ejar' ejar.id %}" class="btn btn-sm btn-warning">تعديل</a>
+                        <a href="{% url 'delete_ejar' ejar.id %}" class="btn btn-sm btn-danger" 
+                            onclick="return confirm('هل أنت متأكد من الحذف؟')">حذف</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">لا توجد نتائج.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

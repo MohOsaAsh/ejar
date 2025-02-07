@@ -3,17 +3,22 @@
 <head>
     <title>نظام الإدارة العقارية</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/form_style.css' %}">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">النظام العقاري</a>
+            <a class="navbar-brand" href="{% url 'home' %}">النظام العقاري</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link" href="{% url 'site_list' %}">المواقع</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'rental_unit_list' %}">العين المؤجرة</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'tenant_list' %}">المستأجرون</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'tenant_list' %}">المستاجرين</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'contract_list' %}">العقود</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'ejar_list' %}">سندات القبض</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">التقارير</a></li>
                 </ul>
             </div>
         </div>
@@ -22,7 +27,11 @@
     <div class="container mt-4">
         {% block content %}{% endblock %}
     </div>
-
+    <script src="{% static 'js/aa.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<footer>
+    <h3><span>محمد احمد عبداللطيف محمود</span> <span>جميع الحقوق  محفوظه  2025 م </span>    </h3>
+</footer>
+
 </body>
 </html>

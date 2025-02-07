@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3>تفاصيل الموقـــع: {{ ejar.name }}</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>اســــم المــوقع:</strong> {{ejar.conno }}</p>
+                <p><strong>العنــــــــوان :</strong> {{ ejar.dateren }}</p>
+                <p><strong>العنــــــــوان :</strong> {{ ejar.name }}</p>
+                <p><strong>العنــــــــوان :</strong> {{ ejar.nameno }}</p>
+                <p><strong>العنــــــــوان :</strong> {{ ejar.datestr }}</p>
+                <p><strong>العنــــــــوان :</strong> {{ ejar.dateend }}</p>
+            </div>
+        </div>
+        <a href="{% url 'ejar_list' %}" class="btn btn-secondary">العودة للقائمة</a>
+    </div>
+</div>
+{% endblock %}

@@ -17,6 +17,14 @@ urlpatterns = [
     path('sites/<int:site_id>/edit/', views.edit_site, name='edit_site'),
     path('sites/<int:site_id>/delete/', views.delete_site, name='delete_site'),
 
+    path('ejar/', views.ejar_list, name='ejar_list'),
+    path('ejar/add/', views.add_ejar, name='add_ejar'),
+    path('ejar/<int:ejar_id>/delete/', views.delete_ejar, name='delete_ejar'),
+    path('ejar/<int:ejar_id>/', views.view_ejar, name='view_ejar'),
+    path('ejar/<int:ejar_id>/edit/', views.edit_ejar, name='edit_ejar'),
+
+
+
  # مسارات العين المؤجرة
     path('units/', views.rental_unit_list, name='rental_unit_list'),
     path('units/add/', views.add_rental_unit, name='add_rental_unit'),

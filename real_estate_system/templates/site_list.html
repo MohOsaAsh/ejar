@@ -26,7 +26,13 @@
                     <td>
                         <a href="{% url 'view_site' site.id %}" class="btn btn-sm btn-info">عرض</a>
                         <a href="{% url 'edit_site' site.id %}" class="btn btn-sm btn-warning">تعديل</a>
-                        <a href="{% url 'delete_site' site.id %}" class="btn btn-sm btn-danger" onclick="return confirm('هل أنت متأكد من الحذف؟')">حذف</a>
+                        <a 
+    href="{% url 'delete_site' site.id %}" 
+    class="btn btn-sm btn-danger" 
+    onclick="return confirm('هل أنت متأكد من حذف الموقع ({{ site.id }}) {{ site.name|escapejs }}؟')"
+>
+    حذف
+</a>
                     </td>
                 </tr>
                 {% endfor %}

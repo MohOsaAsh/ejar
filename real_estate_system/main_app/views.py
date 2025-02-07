@@ -239,3 +239,53 @@ def view_file(request, file_path):
     return FileResponse(open(full_path, 'rb'), content_type='application/octet-stream')
 
 
+
+
+####################
+# إدارة عقود  الايجار #
+####################
+
+
+
+def ejar_list(request):
+    ejars = Ejar.objects.all()
+    return render(request, 'ejar_list.html', {'ejars': ejars})
+
+
+
+    """حذف عقد من النظام"""
+
+def delete_ejar(request, ejar_id):
+    ejar = get_object_or_404(Ejar, pk=ejar_id)
+    ejar.delete()
+    return redirect('ejar_list')
+
+
+def view_ejar(request, ejar_id):
+    """عرض تفاصيل وحدة مؤجرة"""
+    ejar = get_object_or_404(Ejar, pk=ejar_id)
+    return render(request, 'view_ejar.html', {'ejar': ejar})
+
+def edit_ejar(request, ejar_id):
+    """تعديل بيانات وحدة مؤجرة"""
+    ejar = get_object_or_404(Ejar, pk=ejar_id)
+    if request.method == 'POST':
+        form = ejarForm(request.POST, instance=ejar)
+        if form.is_valid():
+            form.save()
+            return redirect('ejar_list')
+    else:
+        form = ejarForm(instance=ejar)
+    return render(request, 'form_template.html', {
+        'form': form,
+        'title': 'تعديل عين مؤجرة'
+    })
+def add_ejar(request):
+    if request.method == 'POST':
+        form = ejarForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('ejar_list')
+    else:
+        form = ejarForm()
+    return render(request, 'form_template.html', {'form': form, 'title': 'إضافة عقد'})
